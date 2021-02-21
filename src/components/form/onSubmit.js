@@ -1,7 +1,7 @@
 import { store } from '/store'
 import { API_URL } from '/consts'
 
-const fetch = (url, { data, method, headers }) => {
+export const fetch = (url, { data, method, headers }) => {
   let result
   return window.fetch(url, {
     method,

@@ -80,14 +80,16 @@ const useRequestConduit = store => (url, { isAuthed = true, ...options }) => {
         console.warn('Could not update list')
       },
       setListItem: (item, key = 'id') => {
-        if (result && Array.isArray(result.results)) {
-          const results = result.results
+        const name = Object.keys(result).find(n => Array.isArray(result[n]))
+        if (!name) return
+        if (result && Array.isArray(result[name])) {
+          const results = result[name]
           const index = results.findIndex(x => x[key] === item[key])
           // If item with id exists, replace it, otherwise append this item to the end
           if (index !== -1) {
-            set({ ...result, results: [...results.slice(0, index), item, ...results.slice(index + 1)] })
+            set({ ...result, [name]: [...results.slice(0, index), item, ...results.slice(index + 1)] })
           } else {
-            set({ ...result, count: result.count + 1, results: [...results, item] })
+            set({ ...result, count: result.count + 1, [name]: [...results, item] })
           }
         }
       }

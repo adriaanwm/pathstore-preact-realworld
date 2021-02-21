@@ -29,7 +29,6 @@ export const urls = [
       article: '/articles/:slug',
       articleFavorite: '/articles/:slug/favorite',
       articleComments: '/articles/:slug/comments',
-      articleComment: '/articles/:slug/comments',
       profile: '/profiles/:username',
       profileFollow: '/profiles/:username/follow'
     }

@@ -15,37 +15,37 @@ const ArticlePreview = ({
     description
   }
 }) =>
-  <div className="article-preview">
-    <div className="article-meta">
+  <div className='article-preview'>
+    <div className='article-meta'>
       <Link name='user' args={{username: `@${author.username}`}} >
         <img src={author.image} alt={author.username} />
       </Link>
 
-      <div className="info">
-        <Link className="author" name='user' args={{username: `/@${author.username}`}}>
+      <div className='info'>
+        <Link className='author' name='user' args={{username: `/@${author.username}`}}>
           {author.username}
         </Link>
-        <span className="date">
+        <span className='date'>
           {new Date(createdAt).toDateString()}
         </span>
       </div>
 
-      <div className="pull-xs-right">
+      <div className='pull-xs-right'>
         <button className={`btn btn-sm ${favorited ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => {}}>
-          <i className="ion-heart"></i> {favoritesCount}
+          <i className='ion-heart'></i> {favoritesCount}
         </button>
       </div>
     </div>
 
-    <Link name='article' args={{articleId: slug}} className="preview-link">
+    <Link name='article' args={{slug}} className='preview-link'>
       <h1>{title}</h1>
       <p>{description}</p>
       <span>Read more...</span>
-      <ul className="tag-list">
+      <ul className='tag-list'>
         {
           tagList.map(tag => {
             return (
-              <li className="tag-default tag-pill tag-outline" key={tag}>
+              <li className='tag-default tag-pill tag-outline' key={tag}>
                 {tag}
               </li>
             )
@@ -62,9 +62,9 @@ export const Articles = () => {
   const articlesUrl = url(articleUrlName, {queries})
   const [{articles, articlesCount} = {}] = store.useRequest(articlesUrl)
   return (
-    !articles ? <div className="article-preview">Loading...</div>
+    !articles ? <div className='article-preview'>Loading...</div>
     : !articles.length ? (
-      <div className="article-preview">
+      <div className='article-preview'>
         No articles are here... yet.
       </div>
     )

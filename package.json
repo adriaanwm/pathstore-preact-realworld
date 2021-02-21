@@ -13,6 +13,7 @@
     "parcel": "^2.0.0-beta.1"
   },
   "dependencies": {
+    "marked": "^2.0.0",
     "preact": "^10.5.12",
     "ramda": "^0.27.1"
   }

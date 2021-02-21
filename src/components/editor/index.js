@@ -5,7 +5,7 @@ import {url} from '/utils/url'
 
 const TagInput = (props) => {
   const [value, setValue] = store.use(['newTag', name], '')
-  const [tags, setTags] = store.use(['Editor', 'values', 'tagList'], [])
+  const [tags, setTags] = store.use(['forms', 'Editor', 'values', 'tagList'], [])
   return <input
     onInput={ev => {
       ev.preventDefault()
@@ -27,10 +27,11 @@ const TagInput = (props) => {
 }
 
 export const Editor = () => {
-  const [tags, setTags] = store.use(['Editor', 'values', 'tagList'], [])
+  const [tags, setTags] = store.use(['forms', 'Editor', 'values', 'tagList'], [])
   const form = {
     name: 'Editor',
     url: url('api.articles'),
+    prepareData: article => ({article}),
     onSuccess: ({article: {slug}}) => {
       routeTo(url('article', {args: {slug}}))
     }
