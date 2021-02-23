@@ -2,9 +2,10 @@ import {store} from '/store'
 import {url} from '/utils/url'
 import {Link} from '/components/router'
 import {Pagination} from '/components/pagination'
+import {onSubmit} from '/components/form'
 
-const ArticlePreview = ({
-  article: {
+const ArticlePreview = ({article, updateArticle}) => {
+  const {
     author,
     tagList,
     createdAt,
@@ -13,47 +14,62 @@ const ArticlePreview = ({
     slug,
     title,
     description
-  }
-}) =>
-  <div className='article-preview'>
-    <div className='article-meta'>
-      <Link name='profile' args={{username: `@${author.username}`}} >
-        <img src={author.image} alt={author.username} />
-      </Link>
-
-      <div className='info'>
-        <Link className='author' name='profile' args={{username: `/@${author.username}`}}>
-          {author.username}
+  } = article
+  return (
+    <div className='article-preview'>
+      <div className='article-meta'>
+        <Link name='profile' args={{username: `@${author.username}`}} >
+          <img src={author.image} alt={author.username} />
         </Link>
-        <span className='date'>
-          {new Date(createdAt).toDateString()}
-        </span>
+
+        <div className='info'>
+          <Link className='author' name='profile' args={{username: `@${author.username}`}}>
+            {author.username}
+          </Link>
+          <span className='date'>
+            {new Date(createdAt).toDateString()}
+          </span>
+        </div>
+
+        <div className='pull-xs-right'>
+          <button className={`btn btn-sm ${favorited ? 'btn-primary' : 'btn-outline-primary'}`} onClick={(ev) => {
+            onSubmit({
+              name: `Follow${author.username}`,
+              url: url('api.profileFollow', {args: {username: author.username}}),
+              method: favorited ? 'DELETE' : 'POST',
+              onSuccess: () => {
+                updateArticle({
+                  ...article,
+                  favorited: !favorited,
+                  favoritesCount: favoritesCount + (favorited ? -1 : 1)
+                })
+              }
+            })(ev)
+          }}>
+            <i className='ion-heart'></i> {favoritesCount}
+          </button>
+        </div>
       </div>
 
-      <div className='pull-xs-right'>
-        <button className={`btn btn-sm ${favorited ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => {}}>
-          <i className='ion-heart'></i> {favoritesCount}
-        </button>
-      </div>
+      <Link name='article' args={{slug}} className='preview-link'>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <span>Read more...</span>
+        <ul className='tag-list'>
+          {
+            tagList.map(tag => {
+              return (
+                <li className='tag-default tag-pill tag-outline' key={tag}>
+                  {tag}
+                </li>
+              )
+            })
+          }
+        </ul>
+      </Link>
     </div>
-
-    <Link name='article' args={{slug}} className='preview-link'>
-      <h1>{title}</h1>
-      <p>{description}</p>
-      <span>Read more...</span>
-      <ul className='tag-list'>
-        {
-          tagList.map(tag => {
-            return (
-              <li className='tag-default tag-pill tag-outline' key={tag}>
-                {tag}
-              </li>
-            )
-          })
-        }
-      </ul>
-    </Link>
-  </div>
+  )
+}
 
 
 export const Articles = () => {
@@ -61,7 +77,7 @@ export const Articles = () => {
   // const [articleUrlName] = store.use(['articleUrlName'], 'api.articles')
   // const [queries] = store.use(['queries'], {offset: 0, limit: 10})
   const articlesUrl = name ? url(name, {queries}) : null
-  const [{articles, articlesCount} = {}] = store.useRequest(articlesUrl)
+  const [{articles, articlesCount} = {}, {setListItem}] = store.useRequest(articlesUrl)
   return (
     !articles ? <div className='article-preview'>Loading...</div>
     : !articles.length ? (
@@ -73,7 +89,7 @@ export const Articles = () => {
       <div>
         {
           articles.map(article =>
-              <ArticlePreview article={article} key={article.slug} />
+              <ArticlePreview article={article} key={article.slug} updateArticle={setListItem} />
           )
         }
         <Pagination path={['articlesUrl', 'queries']} count={articlesCount} />

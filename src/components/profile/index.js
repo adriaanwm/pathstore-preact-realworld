@@ -3,15 +3,16 @@ import {store} from '/store'
 import {url} from '/utils/url'
 import {Articles} from '/components/articles'
 import {Link} from '/components/router'
+import {FollowButton} from '/components/follow-button'
 
 export const Profile = () => {
+  const [token] = store.use(['token'])
+  const [me] = store.useRequest(token ? url('api.me') : null)
   const [routeDef] = store.use(['route', 'definition'])
   const isFavorites = routeDef.includes('/favorites')
   const [usernameWithAt] = store.use(['route', 'args', 'username'])
   const username = usernameWithAt.slice(1)
-  const [profile] = store.useRequest(
-    url('api.profile', {args: {username}})
-  )
+  const [profile] = store.useRequest(url('api.profile', {args: {username}}))
   useEffect(() => {
     store.set(
       ['articlesUrl'], 
@@ -33,13 +34,19 @@ export const Profile = () => {
               <h4>{profile.username}</h4>
               <p>{profile.bio}</p>
 
-              {/* <EditProfileSettings isUser={isUser} /> */}
-              {/* <FollowUserButton */}
-              {/*   isUser={isUser} */}
-              {/*   user={profile} */}
-              {/*   follow={this.props.onFollow} */}
-              {/*   unfollow={this.props.onUnfollow} */}
-              {/*   /> */}
+              {me && me.username === username &&
+                <Link
+                  name="settings"
+                  className="btn btn-sm btn-outline-secondary action-btn"
+                >
+                  <i className="ion-gear-a"></i> Edit Profile Settings
+                </Link>
+              }
+
+
+              {((me && me.username !== username) || !token) &&
+                <FollowButton user={profile} />
+              }
 
             </div>
           </div>

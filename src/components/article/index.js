@@ -12,7 +12,6 @@ export const Article = () => {
   const [article] = store.useRequest(url('api.article', {args: {slug}}))
   const [comments] = store.useRequest(url('api.articleComments', {args: {slug}}))
   const canModify = false
-  console.log(article, comments)
   if (!article || !comments) return 'Loading ...'
   return (
     <div className='article-page'>

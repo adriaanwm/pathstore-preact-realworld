@@ -29,7 +29,7 @@ export const Home = () => {
 
   useEffect(() => {
     store.set(['articlesUrl'], {
-      name: 'api.articles',
+      name: 'api.feed',
       queries: {
         offset: 0,
         limit: 10
