@@ -9,7 +9,7 @@ const Tab = ({active, name, children, urlName}) =>
       className={active ? 'nav-link active' : 'nav-link'}
       onClick={(ev) => {
         ev.preventDefault()
-        store.set(['articlesUrl'], {
+        store.set(['articlesUrl', 'home'], {
           name: urlName,
           queries: {
             offset: 0,
@@ -23,16 +23,17 @@ const Tab = ({active, name, children, urlName}) =>
 
 export const Home = () => {
   const [token] = store.use(['token'])
-  const [tag] = store.use(['queries', 'tag'])
-  const [articlesUrl] = store.use(['articlesUrl'])
+  const [tag] = store.use(['articlesUrl', 'home', 'queries', 'tag'])
+  const [articlesUrl] = store.use(['articlesUrl', 'home'])
   const articlesUrlName = articlesUrl && articlesUrl.name
 
   useEffect(() => {
-    store.set(['articlesUrl'], {
-      name: 'api.feed',
+    store.set(['articlesUrl', 'home'], {
+      name: (token && !tag) ? 'api.feed' : 'api.articles',
       queries: {
         offset: 0,
-        limit: 10
+        limit: 10,
+        ...tag ? {tag} : {}
       }
     })
   }, [])
@@ -63,7 +64,7 @@ export const Home = () => {
                 }
               </ul>
             </div>
-            <Articles />
+            <Articles namespace='home' />
             {/*   pager={props.pager} */}
             {/*   articles={props.articles} */}
             {/*   loading={props.loading} */}
@@ -73,7 +74,7 @@ export const Home = () => {
           <div className='col-md-3'>
             <div className='sidebar'>
               <p>Popular Tags</p>
-              <Tags />
+              <Tags namespace='home' />
             </div>
           </div>
         </div>

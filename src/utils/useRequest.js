@@ -9,7 +9,7 @@ const useRequestDefault = store => (url, { id, onError, fetchOptions = {}, shoul
   useEffect(
     () => {
       if (!shouldFetch) return
-      if (controllerRef.current) controllerRef.current.abort()
+      if (controllerRef.current && controllerRef.current.abort) controllerRef.current.abort()
       if (!url) {
         setIsLoading(false)
         controllerRef.current = null

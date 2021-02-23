@@ -15,7 +15,7 @@ export const Profile = () => {
   const [profile] = store.useRequest(url('api.profile', {args: {username}}))
   useEffect(() => {
     store.set(
-      ['articlesUrl'], 
+      ['articlesUrl', usernameWithAt], 
       isFavorites
       ? {name: 'api.articles', queries: {limit: 5, offset: 0, favorited: username}}
       : {name: 'api.articles', queries: {limit: 5, offset: 0, author: username}}
@@ -80,7 +80,7 @@ export const Profile = () => {
               </ul>
             </div>
 
-            <Articles />
+            <Articles namespace={usernameWithAt} />
 
           </div>
 

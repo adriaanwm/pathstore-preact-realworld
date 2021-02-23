@@ -1,5 +1,6 @@
 import {url} from '/utils/url'
 import {Header} from '/components/header'
+import {Footer} from '/components/footer'
 import {Router} from '/components/router'
 import {Home} from '/components/home'
 import {Login} from '/components/login'
@@ -25,4 +26,5 @@ export const App = () =>
   <div>
     <Header />
     <Router routes={routes} />
+    <Footer />
   </div>

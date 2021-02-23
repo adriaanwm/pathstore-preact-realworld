@@ -1,7 +1,7 @@
 import {store} from '/store'
 import {url} from '/utils/url'
 
-export const Tags = () => {
+export const Tags = ({namespace}) => {
   const [tags] = store.useRequest(url('api.tags'))
   if (!tags) return <div>Loading Tags...</div>
   return (
@@ -14,8 +14,8 @@ export const Tags = () => {
             key={tag}
             onClick={(ev) => {
               ev.preventDefault()
-              store.set(['queries', 'tag'], tag, {noPublish: true})
-              store.set(['articleUrlName'], 'api.articles')
+              store.set(['articlesUrl', namespace, 'queries', 'tag'], tag, {noPublish: true})
+              store.set(['articlesUrl', namespace, 'name'], 'api.articles')
             }}>
             {tag}
           </a>

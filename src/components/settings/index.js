@@ -25,6 +25,7 @@ export const Settings = () => {
     clearOnSuccess: false,
     onSuccess: ({user}) => {
       routeTo(url('home'))
+      store.set(['forms', 'Settings', 'values', 'password'], undefined)
     },
     onError: (err) => {
       console.error('settings error', err)

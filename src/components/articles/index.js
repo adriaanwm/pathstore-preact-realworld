@@ -1,10 +1,10 @@
 import {store} from '/store'
 import {url} from '/utils/url'
-import {Link} from '/components/router'
+import {Link, routeTo} from '/components/router'
 import {Pagination} from '/components/pagination'
 import {onSubmit} from '/components/form'
 
-const ArticlePreview = ({article, updateArticle}) => {
+const ArticlePreview = ({article, updateArticle, isAuthenticated}) => {
   const {
     author,
     tagList,
@@ -33,9 +33,13 @@ const ArticlePreview = ({article, updateArticle}) => {
 
         <div className='pull-xs-right'>
           <button className={`btn btn-sm ${favorited ? 'btn-primary' : 'btn-outline-primary'}`} onClick={(ev) => {
+            if (!isAuthenticated) {
+              routeTo(url('login'))
+              return
+            }
             onSubmit({
               name: `Follow${author.username}`,
-              url: url('api.profileFollow', {args: {username: author.username}}),
+              url: url('api.articleFavorite', {args: {slug}}),
               method: favorited ? 'DELETE' : 'POST',
               onSuccess: () => {
                 updateArticle({
@@ -72,8 +76,10 @@ const ArticlePreview = ({article, updateArticle}) => {
 }
 
 
-export const Articles = () => {
-  const [{name, queries} = {}] = store.use(['articlesUrl'])
+export const Articles = ({namespace}) => {
+  !namespace && console.warn('no namespace for articles')
+  const [token] = store.use(['token'])
+  const [{name, queries} = {}] = store.use(['articlesUrl', namespace])
   // const [articleUrlName] = store.use(['articleUrlName'], 'api.articles')
   // const [queries] = store.use(['queries'], {offset: 0, limit: 10})
   const articlesUrl = name ? url(name, {queries}) : null
@@ -89,10 +95,10 @@ export const Articles = () => {
       <div>
         {
           articles.map(article =>
-              <ArticlePreview article={article} key={article.slug} updateArticle={setListItem} />
+            <ArticlePreview isAuthenticated={!!token} article={article} key={article.slug} updateArticle={(article) => setListItem(article, 'slug')} />
           )
         }
-        <Pagination path={['articlesUrl', 'queries']} count={articlesCount} />
+        <Pagination path={['articlesUrl', namespace, 'queries']} count={articlesCount} />
 
       </div>
     )

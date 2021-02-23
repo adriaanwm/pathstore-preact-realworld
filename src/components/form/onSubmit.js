@@ -15,7 +15,7 @@ export const fetch = (url, { data, method, headers }) => {
     })
     .then(res => {
       if (result.status > 299) {
-        throw Error({ result, json: res })
+        throw { result, json: res }
       }
       return res
     })
@@ -53,6 +53,9 @@ const ConduitOnSubmit = ({
     })
     .catch(err => {
       console.error('Error submitting form', name, err)
+      if (err.json) {
+        store.set(['forms', name, 'errors'], err.json.errors)
+      }
       onError && onError(err)
     })
     .finally(() => store.set(['forms', name, 'isSubmitting'], false))
