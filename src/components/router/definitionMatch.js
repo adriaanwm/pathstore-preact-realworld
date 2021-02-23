@@ -57,6 +57,7 @@ export const findDefinition = (scheme, path) => {
     const m = definitionMatch(path, routes[name])
     if (!m) return
     return {
+      path,
       args: m.args,
       queries: m.queries,
       name: name,

@@ -25,16 +25,20 @@ export const routeTo = (path) => {
   store.set(['route'], match)
 }
 
-export const Link = ({ name, args, queries, children, ...props }) => {
+export const Link = ({ name, args, queries, children, className = '', ...props }) => {
+  const [currentPath] = store.use(['route', 'path'])
   const href = url(name, { args, queries })
+  const active = currentPath === href
   return <a
     href={href}
+    className={`${className} ${active ? 'active' : ''}`}
     onClick={ev => {
       ev.preventDefault()
       const { definition } = match(urls, name) || {}
       if (definition) {
         window.history.pushState(null, null, href)
         store.set(['route'], {
+          path: href,
           definition,
           args,
           queries
