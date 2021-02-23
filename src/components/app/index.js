@@ -14,6 +14,7 @@ const routes = [
   [url('login'), Login],
   [url('register'), Register],
   [url('editor'), Editor],
+  [url('editorWithSlug'), Editor],
   [url('article'), Article],
   [url('settings'), Settings],
   [url('profile'), Profile],

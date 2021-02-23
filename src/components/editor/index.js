@@ -1,10 +1,10 @@
-import {TextArea, TextInput, Button, onSubmit, ListErrors} from '/components/form'
+import {useInitialData, TextArea, TextInput, Button, onSubmit, ListErrors} from '/components/form'
 import {routeTo} from '/components/router'
 import {store} from '/store'
 import {url} from '/utils/url'
 
 const TagInput = (props) => {
-  const [value, setValue] = store.use(['newTag', name], '')
+  const [value, setValue] = store.use(['newTag'], '')
   const [tags, setTags] = store.use(['forms', 'Editor', 'values', 'tagList'], [])
   return <input
     onInput={ev => {
@@ -27,15 +27,23 @@ const TagInput = (props) => {
 }
 
 export const Editor = () => {
-  const [tags, setTags] = store.use(['forms', 'Editor', 'values', 'tagList'], [])
+  const [slug] = store.use(['route', 'args', 'slug'])
+  const [article] = store.useRequest(slug ? url('api.article', {args: {slug}}) : null)
+  const [tags, setTags] = store.use(['forms', 'Editor', 'values', 'tagList'])
   const form = {
     name: 'Editor',
-    url: url('api.articles'),
+    url: slug ? url('api.article', {args: {slug}}) : url('api.articles'),
+    method: slug ? 'PUT' : 'POST',
     prepareData: article => ({article}),
     onSuccess: ({article: {slug}}) => {
       routeTo(url('article', {args: {slug}}))
     }
   }
+  useInitialData(
+    form.name,
+    slug ? article : {tagList: []}
+  )
+  if (slug && !article) return 'Loading...'
   return (
     <div className='editor-page'>
       <div className='container page'>

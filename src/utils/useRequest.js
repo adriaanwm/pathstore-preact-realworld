@@ -90,7 +90,11 @@ const useRequestConduit = store => (url, { isAuthed = true, ...options }) => {
           if (index !== -1) {
             set({ ...result, [name]: [...results.slice(0, index), item, ...results.slice(index + 1)] })
           } else {
-            set({ ...result, count: result.count + 1, [name]: [...results, item] })
+            set({
+              ...result,
+              ...typeof(result.count) === 'number' ? {count: result.count + 1} : {},
+              [name]: [...results, item]
+            })
           }
         }
       }
