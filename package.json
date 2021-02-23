@@ -2,17 +2,21 @@
   "name": "pathstore-example-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "start": "parcel serve src/index.html",
+    "build": "parcel build src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "heroku-postbuild" : "parcel build src/index.html",
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "parcel": "^2.0.0-beta.1"
+    "parcel": "^2.0.0-beta.1",
+    "parcel-plugin-bundle-visualiser": "^1.2.0"
   },
   "dependencies": {
+    "@adriaanwm/pathstore": "^1.0.0",
     "marked": "^2.0.0",
     "preact": "^10.5.12",
     "ramda": "^0.27.1"

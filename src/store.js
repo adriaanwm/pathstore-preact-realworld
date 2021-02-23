@@ -1,5 +1,5 @@
 import {useEffect, useState, useRef} from 'preact/hooks'
-import {createStore} from 'pathstore'
+import {createStore} from '@adriaanwm/pathstore'
 import {currentRoute} from '/components/router/definitionMatch'
 import {useRequest} from '/utils/useRequest'
 
