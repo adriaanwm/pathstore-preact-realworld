@@ -77,11 +77,8 @@ const ArticlePreview = ({article, updateArticle, isAuthenticated}) => {
 
 
 export const Articles = ({namespace}) => {
-  !namespace && console.warn('no namespace for articles')
   const [token] = store.use(['token'])
   const [{name, queries} = {}] = store.use(['articlesUrl', namespace])
-  // const [articleUrlName] = store.use(['articleUrlName'], 'api.articles')
-  // const [queries] = store.use(['queries'], {offset: 0, limit: 10})
   const articlesUrl = name ? url(name, {queries}) : null
   const [{articles, articlesCount} = {}, {setListItem}] = store.useRequest(articlesUrl)
   return (
