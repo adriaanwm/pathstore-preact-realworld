@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect } from 'preact/hooks'
 import { store } from '/store'
 
 export const useInitialData = (formName, data) => {

@@ -1,22 +1,37 @@
-import {TextInput, TextArea, Button, onSubmit, ListErrors} from '/components/form'
+import {
+  useInitialData,
+  TextInput,
+  TextArea,
+  Button,
+  onSubmit,
+  ListErrors
+} from '/components/form'
 import {routeTo} from '/components/router'
 import {url} from '/utils/url'
 import {store} from '/store'
 
 export const Settings = () => {
+  const [me] = store.useRequest(url('api.me'))
   const form = {
     name: 'Settings',
+    method: 'PUT',
     url: url('api.me'),
-    clearOnSuccess: true,
-    prepareData: user => ({user}),
+    prepareData: ({image, ...user}) => ({
+      user: {
+        ...user,
+        image: image ? image : null
+      },
+    }),
+    clearOnSuccess: false,
     onSuccess: ({user}) => {
-      console.log('settings!', user)
-      setListItem(comment)
+      routeTo(url('home'))
     },
     onError: (err) => {
       console.error('settings error', err)
     }
   }
+  useInitialData(form.name, me)
+  if (!me) return 'Loading...'
   return (
     <div className='settings-page'>
       <div className='container page'>
