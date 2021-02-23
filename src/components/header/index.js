@@ -3,13 +3,14 @@ import {store} from '/store'
 import {url} from '/utils/url'
 
 export const Header = ({}) => {
-  const [{user: me} = {}] = store.useRequest(url('api.me'))
+  const [token] = store.use(['token'])
+  const [me] = store.useRequest(token && url('api.me'))
   return (
     <nav className='navbar navbar-light'>
       <div className='container'>
         <Link name='home' class='navbar-brand'>conduit</Link>
 
-        {!me &&
+        {!token &&
           <ul className='nav navbar-nav pull-xs-right'>
             <li className='nav-item'>
               <Link name='home' className='nav-link'>
@@ -47,8 +48,8 @@ export const Header = ({}) => {
             </li>
             <li className='nav-item'>
               <Link
-                name='user'
-                args={{username: me.username}}
+                name='profile'
+                args={{username: `@${me.username}`}}
                 className='nav-link'>
                 <img src={me.image} className='user-pic' alt={me.username} />
                 {me.username}

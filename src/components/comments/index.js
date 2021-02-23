@@ -8,14 +8,14 @@ const Comment = ({comment}) =>
     </div>
     <div className='card-footer'>
       <Link
-        name='user'
+        name='profile'
         args={{username: comment.author.username}}
         className='comment-author'>
         <img src={comment.author.image} className='comment-author-img' alt={comment.author.username} />
       </Link>
       &nbsp;
       <Link
-        name='user'
+        name='profile'
         args={{username: comment.author.username}}
         className='comment-author'>
         {comment.author.username}

@@ -1,3 +1,4 @@
+import {useEffect} from 'preact/hooks'
 import {Articles} from '/components/articles'
 import {Tags} from '/components/tags'
 import {store} from '/store'
@@ -8,8 +9,13 @@ const Tab = ({active, name, children, urlName}) =>
       className={active ? 'nav-link active' : 'nav-link'}
       onClick={(ev) => {
         ev.preventDefault()
-        store.set(['queries'], {offset: 0, limit: 10}, {noPublish: true})
-        store.set(['articleUrlName'], urlName)
+        store.set(['articlesUrl'], {
+          name: urlName,
+          queries: {
+            offset: 0,
+            limit: 10
+          }
+        })
       }}>
       {children}
     </a>
@@ -18,7 +24,19 @@ const Tab = ({active, name, children, urlName}) =>
 export const Home = () => {
   const [token] = store.use(['token'])
   const [tag] = store.use(['queries', 'tag'])
-  const [articleUrlName] = store.use(['articleUrlName'])
+  const [articlesUrl] = store.use(['articlesUrl'])
+  const articlesUrlName = articlesUrl && articlesUrl.name
+
+  useEffect(() => {
+    store.set(['articlesUrl'], {
+      name: 'api.articles',
+      queries: {
+        offset: 0,
+        limit: 10
+      }
+    })
+  }, [])
+
   return (
     <div className='home-page'>
       {!token &&
@@ -34,8 +52,8 @@ export const Home = () => {
           <div className='col-md-9'>
             <div className='feed-toggle'>
               <ul className='nav nav-pills outline-active'>
-                <Tab urlName={'api.feed'} active={articleUrlName === 'api.feed'} name='feed' key='feed-tab' >Your Feed</Tab>
-                <Tab urlName={'api.articles'} active={articleUrlName === 'api.articles' && !tag} name='all' key='all-tab' >Global Feed</Tab>
+                {token && <Tab urlName='api.feed' active={articlesUrlName === 'api.feed'} name='feed' key='feed-tab' >Your Feed</Tab>}
+                <Tab urlName='api.articles' active={articlesUrlName === 'api.articles' && !tag} name='all' key='all-tab' >Global Feed</Tab>
                 {tag &&
                   <li className='nav-item'>
                     <a href='' className='nav-link active' >

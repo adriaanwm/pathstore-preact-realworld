@@ -12,8 +12,8 @@ export const urls = [
       editorWithSlug: '/editor/:slug',
       article: '/article/:slug',
       settings: '/settings',
-      userFavorites: '/:username/favorites',
-      user: '/:username'
+      profileFavorites: '/:username/favorites',
+      profile: '/:username'
     }
   },
   {

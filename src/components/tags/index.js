@@ -2,8 +2,8 @@ import {store} from '/store'
 import {url} from '/utils/url'
 
 export const Tags = () => {
-  const [{tags} = {}] = store.useRequest(url('api.tags'))
-  if (!tags) return <div>Loadin Tags...</div>
+  const [tags] = store.useRequest(url('api.tags'))
+  if (!tags) return <div>Loading Tags...</div>
   return (
     <div className='tag-list'>
       {

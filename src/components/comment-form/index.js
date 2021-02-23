@@ -10,7 +10,6 @@ export const CommentForm = ({slug, me}) => {
     clearOnSuccess: true,
     prepareData: comment => ({comment}),
     onSuccess: ({comment}) => {
-      console.log('comment!', comment)
       setListItem(comment)
     },
     onError: (err) => {

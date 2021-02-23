@@ -3,11 +3,15 @@ import {createStore} from 'pathstore'
 import {currentRoute} from '/components/router/definitionMatch'
 import {useRequest} from '/utils/useRequest'
 
+const createInit = store => () =>
+  store.set([], {
+    route: currentRoute() || {},
+    token: localStorage.getItem('token')
+  })
+
+
 export const store = createStore({useEffect, useState, useRef, reduxDevtools: true})
 
 store.useRequest = useRequest(store)
-
-store.set([], {
-  route: currentRoute() || {},
-  token: localStorage.getItem('token')
-})
+store.init = createInit(store)
+store.init()

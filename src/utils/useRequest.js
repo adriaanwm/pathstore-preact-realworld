@@ -26,10 +26,10 @@ const useRequestDefault = store => (url, { id, onError, fetchOptions = {}, shoul
         .catch(err => onError && onError(err))
         .finally(() => setIsLoading(false))
     },
-    [id, url]
+    [id, url, JSON.stringify(fetchOptions)]
   )
   return [
-    result,
+    result === null ? undefined : result,
     {
       set: setResult,
       isLoading,
@@ -68,7 +68,8 @@ const useRequestConduit = store => (url, { isAuthed = true, ...options }) => {
     )
   )
   return [
-    (result && result.results) ? result.results : result,
+    (result && Object.keys(result).length === 1) ? Object.values(result)[0] : result,
+    // (result && result.results) ? result.results : result,
     {
       result,
       ...rest,
@@ -99,7 +100,7 @@ const useRequestConduit = store => (url, { isAuthed = true, ...options }) => {
 
 const useRequests = [
   {
-    match: (url) => url.includes(API_URL),
+    match: (url) => url && url.includes(API_URL),
     useRequest: useRequestConduit
   },
   {

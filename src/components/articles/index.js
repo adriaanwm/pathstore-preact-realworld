@@ -17,12 +17,12 @@ const ArticlePreview = ({
 }) =>
   <div className='article-preview'>
     <div className='article-meta'>
-      <Link name='user' args={{username: `@${author.username}`}} >
+      <Link name='profile' args={{username: `@${author.username}`}} >
         <img src={author.image} alt={author.username} />
       </Link>
 
       <div className='info'>
-        <Link className='author' name='user' args={{username: `/@${author.username}`}}>
+        <Link className='author' name='profile' args={{username: `/@${author.username}`}}>
           {author.username}
         </Link>
         <span className='date'>
@@ -57,9 +57,10 @@ const ArticlePreview = ({
 
 
 export const Articles = () => {
-  const [articleUrlName] = store.use(['articleUrlName'], 'api.articles')
-  const [queries] = store.use(['queries'], {offset: 0, limit: 10})
-  const articlesUrl = url(articleUrlName, {queries})
+  const [{name, queries} = {}] = store.use(['articlesUrl'])
+  // const [articleUrlName] = store.use(['articleUrlName'], 'api.articles')
+  // const [queries] = store.use(['queries'], {offset: 0, limit: 10})
+  const articlesUrl = name ? url(name, {queries}) : null
   const [{articles, articlesCount} = {}] = store.useRequest(articlesUrl)
   return (
     !articles ? <div className='article-preview'>Loading...</div>
@@ -75,7 +76,7 @@ export const Articles = () => {
               <ArticlePreview article={article} key={article.slug} />
           )
         }
-        <Pagination url={articlesUrl} count={articlesCount} />
+        <Pagination path={['articlesUrl', 'queries']} count={articlesCount} />
 
       </div>
     )
