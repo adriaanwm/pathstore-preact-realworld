@@ -2,10 +2,9 @@
   "name": "pathstore-example-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
   "scripts": {
     "start": "parcel src/index.html -p $PORT",
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html --dist-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "heroku-postbuild" : "parcel build src/index.html",
