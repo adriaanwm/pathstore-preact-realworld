@@ -11,7 +11,7 @@ import {url} from '/utils/url'
 import {store} from '/store'
 
 export const Settings = () => {
-  const [me] = store.useRequest(url('api.me'))
+  const [me, {set: setMe}] = store.useRequest(url('api.me'))
   const form = {
     name: 'Settings',
     method: 'PUT',
@@ -24,6 +24,7 @@ export const Settings = () => {
     }),
     clearOnSuccess: false,
     onSuccess: ({user}) => {
+      setMe({user})
       routeTo(url('home'))
       store.set(['forms', 'Settings', 'values', 'password'], undefined)
     },
