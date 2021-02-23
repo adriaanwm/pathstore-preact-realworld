@@ -25,10 +25,10 @@ export const routeTo = (path) => {
   store.set(['route'], match)
 }
 
-export const Link = ({ name, args, queries, children, className = '', ...props }) => {
+export const Link = ({ activeClass, name, args, queries, children, className = '', ...props }) => {
   const [currentPath] = store.use(['route', 'path'])
   const href = url(name, { args, queries })
-  const active = currentPath === href
+  const active = activeClass && currentPath === href
   return <a
     href={href}
     className={`${className} ${active ? 'active' : ''}`}

@@ -13,17 +13,17 @@ export const Header = ({}) => {
         {!token &&
           <ul className='nav navbar-nav pull-xs-right'>
             <li className='nav-item'>
-              <Link name='home' className='nav-link'>
+              <Link activeClass name='home' className='nav-link'>
                 Home
               </Link>
             </li>
             <li className='nav-item'>
-              <Link name='login' className='nav-link'>
+              <Link activeClass name='login' className='nav-link'>
                 Sign in
               </Link>
             </li>
             <li className='nav-item'>
-              <Link name='register' className='nav-link'>
+              <Link activeClass name='register' className='nav-link'>
                 Sign up
               </Link>
             </li>
