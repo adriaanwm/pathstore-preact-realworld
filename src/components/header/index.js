@@ -1,4 +1,5 @@
-import {Link} from '/components/router'
+import {compose} from 'Ramda'
+import {ActiveLink, Link} from '/components/router'
 import {store} from '/store'
 import {url} from '/utils/url'
 
@@ -13,47 +14,47 @@ export const Header = ({}) => {
         {!token &&
           <ul className='nav navbar-nav pull-xs-right'>
             <li className='nav-item'>
-              <Link activeClass name='home' className='nav-link'>
+              <ActiveLink name='home' className='nav-link'>
                 Home
-              </Link>
+              </ActiveLink>
             </li>
             <li className='nav-item'>
-              <Link activeClass name='login' className='nav-link'>
+              <ActiveLink name='login' className='nav-link'>
                 Sign in
-              </Link>
+              </ActiveLink>
             </li>
             <li className='nav-item'>
-              <Link activeClass name='register' className='nav-link'>
+              <ActiveLink name='register' className='nav-link'>
                 Sign up
-              </Link>
+              </ActiveLink>
             </li>
           </ul>
         }
         {me &&
           <ul className='nav navbar-nav pull-xs-right'>
             <li className='nav-item'>
-              <Link name='home' className='nav-link'>
+              <ActiveLink name='home' className='nav-link'>
                 Home
-              </Link>
+              </ActiveLink>
             </li>
             <li className='nav-item'>
-              <Link name='editor' className='nav-link'>
+              <ActiveLink name='editor' className='nav-link'>
                 <i className='ion-compose'></i>&nbsp;New Post
-              </Link>
+              </ActiveLink>
             </li>
             <li className='nav-item'>
-              <Link name='settings' className='nav-link'>
+              <ActiveLink name='settings' className='nav-link'>
               <i className='ion-gear-a'></i>&nbsp;Settings
-              </Link>
+              </ActiveLink>
             </li>
             <li className='nav-item'>
-              <Link
+              <ActiveLink
                 name='profile'
                 args={{username: `@${me.username}`}}
                 className='nav-link'>
                 <img src={me.image} className='user-pic' alt={me.username} />
                 {me.username}
-              </Link>
+              </ActiveLink>
             </li>
           </ul>
         }

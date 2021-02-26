@@ -1,3 +1,4 @@
+import {compose} from 'ramda'
 import {url} from '/utils/url'
 import {Header} from '/components/header'
 import {Footer} from '/components/footer'
@@ -9,6 +10,7 @@ import {Editor} from '/components/editor'
 import {Article} from '/components/article'
 import {Settings} from '/components/settings'
 import {Profile} from '/components/profile'
+import {store} from '/store'
 
 const routes = [
   [url('home'), Home],

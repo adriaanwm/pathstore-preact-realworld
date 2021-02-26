@@ -25,13 +25,10 @@ export const routeTo = (path) => {
   store.set(['route'], match)
 }
 
-export const Link = ({ activeClass, name, args, queries, children, className = '', ...props }) => {
-  const [currentPath] = store.use(['route', 'path'])
+export const Link = ({ name, args, queries, ...props }) => {
   const href = url(name, { args, queries })
-  const active = activeClass && currentPath === href
   return <a
     href={href}
-    className={`${className} ${active ? 'active' : ''}`}
     onClick={ev => {
       ev.preventDefault()
       const { definition } = match(urls, name) || {}
@@ -46,9 +43,20 @@ export const Link = ({ activeClass, name, args, queries, children, className = '
       }
     }}
     {...props}
-  >
-    {children}
-  </a>
+  />
+}
+
+export const ActiveLink = ({ name, args, queries, className = '', ...props }) => {
+  const [currentPath] = store.use(['route', 'path'])
+  const href = url(name, { args, queries })
+  const active = currentPath === href
+  return <Link
+    args={args}
+    queries={queries}
+    className={`${className} ${active ? 'active' : ''}`}
+    name={name}
+    {...props}
+  />
 }
 
 const findMatch = (definition, routes) =>

@@ -2,6 +2,7 @@ import {useEffect} from 'preact/hooks'
 import {Articles} from '/components/articles'
 import {Tags} from '/components/tags'
 import {store} from '/store'
+import {withPath} from '/store/with'
 
 const Tab = ({active, name, children, urlName}) =>
   <li className='nav-item'>
