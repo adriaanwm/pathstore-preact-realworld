@@ -1,8 +1,8 @@
-import Preact from 'preact'
+import {Component} from 'preact'
 import {equals} from 'ramda'
 
 export const withPath = store => (name, path, defaultValue, options = {}) => C => {
-  class WithState extends Preact.Component {
+  class WithState extends Component {
     constructor(props) {
       super(props)
       this._nameIsFunction = typeof name === 'function'
