@@ -15,7 +15,7 @@
     "parcel-plugin-bundle-visualiser": "^1.2.0"
   },
   "dependencies": {
-    "@adriaanwm/pathstore": "^1.0.4",
+    "@adriaanwm/pathstore": "^1.0.6",
     "marked": "^2.0.0",
     "preact": "^10.5.12",
     "ramda": "^0.27.1"

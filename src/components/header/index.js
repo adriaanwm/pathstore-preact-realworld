@@ -1,4 +1,4 @@
-import {compose} from 'Ramda'
+import {compose} from 'ramda'
 import {ActiveLink, Link} from '/components/router'
 import {store} from '/store'
 import {url} from '/utils/url'
